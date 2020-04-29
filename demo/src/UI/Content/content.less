@@ -4,7 +4,13 @@
         background-color: white;
         padding: 0 3%;
         .content_menu_header{
-            
+            .ant-calendar-picker-input{
+                border: 0;
+                background-color: rgba(1, 1, 1, 0);
+                svg{
+                    display: none;
+                }
+            }
             .content_menu_input{
                 border-radius: 10px;
                 box-shadow: 0px 3px 10px rgba(1, 1, 1, 0.2);
@@ -17,6 +23,7 @@
                         padding:0 10px;
                         font-weight: bold;
                     }
+                    
                     input{
                         border: 0 ;
                         background-color: rgba(1, 1, 1, 0);
@@ -29,6 +36,18 @@
                         border-right: 0;
                         background-color: rgba(1, 1, 1, 0.05);
                     }
+                    button{
+                        background-color: rgba(1, 1, 1, 0);
+                        color:black;
+                        
+
+                        &:hover{
+                            border-radius: 10px;
+                            border-right: 0;
+                            background-color: rgba(1, 1, 1, 0.05);
+                        }
+                    }
+                    
                 }
                 
                 button{
