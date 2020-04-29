@@ -11,6 +11,9 @@ import {
 } from 'antd';
 
 import "./content.less";
+import happydoctor from '../../images/happydoctor.jpg'
+import home2 from '../../images/home2.jpg'
+import online_shopping from '../../images/online-shopping.jpg'
 
 const { Option } = Select;
 
@@ -20,17 +23,17 @@ class MyContent extends Component {
         
           
         return (
-          <div className="content">
+          <div className="content" style={{height:"100%",backgroundColor:"white"}}>
             <div className="content_menu">
                 <div className="content_menu_header" style={{width:"100%"}}>
-                    <Menu mode="horizontal">
+                    <Menu mode="horizontal" style={{marginBottom:"10px"}}>
                         <Menu.Item><a>尋找住宿</a></Menu.Item>
                         <Menu.Item><a>長期住宿</a></Menu.Item>
                         <Menu.Item><a>體驗</a></Menu.Item>
                         <Menu.Item><a>網上體驗</a></Menu.Item>
                     </Menu>
                     <div className="content_menu_input" style={{display:"flex"}}>
-
+                        
                         <div className="menu_inputDiv" >
                             <label htmlFor="input01">
                                 <div style={{padding:"10px"}}>
@@ -40,7 +43,8 @@ class MyContent extends Component {
                                 </div>
                             </label>
                         </div>
-
+                 
+                        
                         <div className="menu_inputDiv">
                             <label htmlFor="input02">
                                 <div style={{padding:"10px"}}>
@@ -49,7 +53,7 @@ class MyContent extends Component {
                                 </div>
                             </label>
                         </div>
-                        <div className="menu_inputDiv">
+                        <div className="menu_inputDiv"style={{borderRight:"unset"}}>
                             <label htmlFor="input03">
                                 <div style={{padding:"10px"}}>
                                     <h5>旅人</h5>
@@ -63,36 +67,48 @@ class MyContent extends Component {
                         
                     </div>
                 </div>
-                <div className="content_menu_content">
+                <div className="content_menu_content" style={{margin:"20px 0"}}>
                     <h1>我們可能暫時天各一方，但定能一同渡過難關。</h1>
                 </div>
-                <div className="content_menu_footer">
+                <div className="content_menu_footer" style={{width:"100%",marginBottom:"20px"}}>
                     <Row gutter={16}>
                         <Col span={8}>
-                            <Card title="Card title" bordered={false}>
+                            <Card 
+                                style={{width:"100%",borderRadius:"20px"}}
+                                hoverable
+                                cover={<img alt="Image1" src={home2}/>}
+
+                            >
                             Card content
                             </Card>
                         </Col>
                         <Col span={8}>
-                            <Card title="Card title" bordered={false}>
+                            <Card  
+                                style={{width:"100%",borderRadius:"20px"}}
+                                hoverable
+                                cover={<img alt="Image1" src={happydoctor} />}>
                             Card content
                             </Card>
                         </Col>
                         <Col span={8}>
-                            <Card title="Card title" bordered={false}>
+                            <Card  
+                                style={{width:"100%",borderRadius:"20px"}}
+                                hoverable
+                                cover={<img alt="Image1" src={online_shopping}/>}>
                             Card content
                             </Card>
                         </Col>
                     </Row>
                 </div>
             </div>
-            <div style={{backgroundColor:"yellow"}}>as</div>
-            <div style={{backgroundColor:"yellowgreen"}}>as</div>
-            <div style={{backgroundColor:"#FF385C"}}>as</div>
+            <div style={{backgroundColor:"yellow",height:"100px"}}>Content 2</div>
+            <div style={{backgroundColor:"yellowgreen",height:"100px"}}>Content 3</div>
+            <div style={{backgroundColor:"#FF385C",height:"100px"}}>Content 4</div>
           </div>
         )
         
     }
 }
+
  
 export default MyContent;

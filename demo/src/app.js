@@ -20,7 +20,7 @@ class App extends Component{
         return (
             <div style={{height:"100%"}}>
                
-                <Layout style={{height:"100%",backgroundColor:"#fff"}}>
+                <Layout style={{backgroundColor:"#fff"}}>
                     <Header >
                         <MyHeader/>
                     </Header>
