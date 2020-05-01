@@ -10,10 +10,11 @@ import {
     DatePicker,
     Dropdown,
     Button,
-    Calendar
+    Calendar,
+    List,
+    Typography
 } from 'antd';
 import moment from 'moment';
-import 'moment/locale/zh-cn';
 
 import "./content.less";
 import happydoctor from '../../images/happydoctor.jpg'
@@ -25,40 +26,63 @@ const { Option } = Select;
 const {RangePicker} = DatePicker
 class MyContent extends Component {
     state={
-        value:moment(),
-        dropdownMenuDataSelect:false
+        value:["新增日期"],
+        dropdownMenuDataSelect:false,
+        dropdownMenuPersonSelect:false,
+        selectVal1:"",
+        selectVal2:""
     }
-    handleShowDropSelect=()=>{
+    handleShowDropSelectData=()=>{
         let bool = !this.state.dropdownMenuDataSelect;
         this.setState({dropdownMenuDataSelect:bool});
     }
+    handleShowDropSelectPerson=()=>{
+        let bool = !this.state.dropdownMenuPersonSelect;
+        this.setState({dropdownMenuPersonSelect:bool});
+    }
     render() { 
-        function onPanelChange(value, mode) {
-            console.log("onPanelChange(): ",value, mode);
-        }
+        const data = [
+            {name:"成人",yearOlds:"年齡13+"},
+            {name:"兒童",yearOlds:"2 - 12歲"},
+            {name:"幼兒",yearOlds:"2歲以下"}
+        ];
         
         
         const menu = (
-            <Menu>
-              <Menu.Item key="0">
-                <a href="http://www.alipay.com/">1st menu item</a>
-              </Menu.Item>
-              <Menu.Item key="1">
-                <a href="http://www.taobao.com/">2nd menu item</a>
-              </Menu.Item>
-              <Menu.Divider />
-              <Menu.Item key="3">3rd menu item</Menu.Item>
-            </Menu>
+            <List
+                dataSource={data}
+                renderItem={item => (
+                    <List.Item style={{width:"100%"}}>
+                        <div style={{width:"60%"}}>
+                            <h2>{item.name}</h2>
+                            <h4>{item.yearOlds}</h4>
+                        </div>
+                        <div style={{width:"40%"}}>
+
+                        </div>
+                    </List.Item>
+                )}
+            />
           );
           const menu2 = (
              
             <div style={{backgroundColor: "white",width: 300, border: '1px solid #d9d9d9', borderRadius: 4 }}>
                 <Calendar 
-                    
                     fullscreen={false} 
-                    value={moment()} 
-                    onSelect={(data)=>console.log("onSelect(): "+data)} 
-                    onPanelChange={this.onPanelChange}
+                    onSelect={(data)=>{
+                        
+                        if(this.state.selectVal2 && this.state.selectVal1){
+                            this.setState({
+                                selectVal1:data.format('YYYY-MM-DD'),selectVal2:""
+                            })
+                        }
+                        if(!this.state.selectVal1){
+                            return  this.setState({selectVal1:data.format('YYYY-MM-DD')})
+                        }else if(!this.state.selectVal2 && this.state.selectVal1!==data.format('YYYY-MM-DD')){
+                            return  this.setState({selectVal2:data.format('YYYY-MM-DD')})
+                        }                 
+                    }} 
+                    
                 />
             </div>   
             
@@ -93,24 +117,29 @@ class MyContent extends Component {
                                 visible={this.state.dropdownMenuDataSelect}
                             >
                                 <Button 
-                                    onClick={e => {e.preventDefault();this.handleShowDropSelect();}}
+                                    onClick={e => {e.preventDefault();this.handleShowDropSelectData();}}
                                     style={{width:"100%",height:"100%",margin:"0"}}
                                 >
-                                     
-                                
                                     <h5>入住／退房</h5>
-                                       
+                                    <input disabled="disabled" 
+                                        placeholder={this.state.selectVal1?this.state.selectVal1+"-"+this.state.selectVal2:"新增日期"}
+                                    />
+
                                 </Button>   
                             </Dropdown>
                         </div>
                         <div className="menu_inputDiv" style={{borderRight:"unset"}}>
-                            <Dropdown overlay={menu} trigger={['click']}>
+                            <Dropdown overlay={menu} trigger={['click']}
+                                    visible={this.state.dropdownMenuPersonSelect}
+                                >
                                 <Button 
-                                    onClick={e => e.preventDefault()}
+                                    onClick={e => {e.preventDefault();this.handleShowDropSelectPerson();}}
                                     style={{width:"100%",height:"100%",margin:"0"}}
-                                ><h5 >旅人</h5>
-                                <input placeholder="wewewew" disabled="disabled"/>
-                                </Button>
+                                >
+                                    <h5>旅人</h5>
+                                    <input placeholder="wewewew" disabled="disabled"/>
+
+                                </Button>   
                             </Dropdown>
                         </div>
                         
