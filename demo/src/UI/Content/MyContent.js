@@ -30,7 +30,13 @@ class MyContent extends Component {
         dropdownMenuDataSelect:false,
         dropdownMenuPersonSelect:false,
         selectVal1:"",
-        selectVal2:""
+        selectVal2:"",
+        personData:[
+            {name:"成人",yearOlds:"年齡13+",nums:0},
+            {name:"兒童",yearOlds:"2 - 12歲",nums:0},
+            {name:"幼兒",yearOlds:"2歲以下",nums:0}
+        ]
+
     }
     handleShowDropSelectData=()=>{
         let bool = !this.state.dropdownMenuDataSelect;
@@ -40,29 +46,68 @@ class MyContent extends Component {
         let bool = !this.state.dropdownMenuPersonSelect;
         this.setState({dropdownMenuPersonSelect:bool});
     }
-    render() { 
-        const data = [
-            {name:"成人",yearOlds:"年齡13+"},
-            {name:"兒童",yearOlds:"2 - 12歲"},
-            {name:"幼兒",yearOlds:"2歲以下"}
-        ];
+    increasePersonNumber=(item)=>{
+        let newList =this.state.personData;
+        for(var i=0;i<newList.length;i++){
+            if(newList[i].name === item.name){
+                // console.log("name")
+                newList[i].nums += 1;
+            }
+        }
+        // console.log(newList);
+        this.setState({personData:newList})
+    }
+    deceasePersonNumber=(item)=>{
         
+        let newList =this.state.personData;
+        for(var i=0;i<newList.length;i++){
+            if(newList[i].name === item.name){
+                // console.log("name")
+                if(newList[i].nums>0){
+                    newList[i].nums -= 1;
+                }
+            }
+        }
+        // console.log(newList);
+        this.setState({personData:newList})
+    }
+    showPerson=()=>{
+        let newList =this.state.personData;
+        let temp="";
+        for(var i=0;i<newList.length;i++){
+            if(newList[i].nums>0){
+                console.log(newList[i])
+                temp+=newList[i].name+"x"+newList[i].nums+" "
+            }
+        }
+        return temp;
+        
+    }
+    showButton=()=>{
+        
+    }
+    render() { 
         
         const menu = (
-            <List
-                dataSource={data}
-                renderItem={item => (
-                    <List.Item style={{width:"100%"}}>
-                        <div style={{width:"60%"}}>
-                            <h2>{item.name}</h2>
-                            <h4>{item.yearOlds}</h4>
-                        </div>
-                        <div style={{width:"40%"}}>
-
-                        </div>
-                    </List.Item>
-                )}
-            />
+            <div style={{backgroundColor:"white",border:"1px solid red" }}>
+                <List
+                    selectable="false"
+                    dataSource={this.state.personData}
+                    renderItem={item => (
+                        <List.Item style={{width:"100%"}}>
+                            <div style={{width:"50%"}}>
+                                <h2>{item.name}</h2>
+                                <h4>{item.yearOlds}</h4>
+                            </div>
+                            <div style={{width:"40%"}}>
+                                <Button {...this.showButton} onClick={()=>this.deceasePersonNumber(item)} style={{width:"30%"}} shape="circle" ><Icon type="minus"/></Button>
+                                <span style={{margin:"10px",width:"30%"}}>{item.nums}</span>
+                                <Button onClick={()=>this.increasePersonNumber(item)} style={{width:"30%"}} shape="circle" ><Icon type="plus"/></Button>
+                            </div>
+                        </List.Item>
+                    )}
+                />
+            </div>
           );
           const menu2 = (
              
@@ -131,13 +176,14 @@ class MyContent extends Component {
                         <div className="menu_inputDiv" style={{borderRight:"unset"}}>
                             <Dropdown overlay={menu} trigger={['click']}
                                     visible={this.state.dropdownMenuPersonSelect}
+                                    
                                 >
                                 <Button 
                                     onClick={e => {e.preventDefault();this.handleShowDropSelectPerson();}}
                                     style={{width:"100%",height:"100%",margin:"0"}}
                                 >
                                     <h5>旅人</h5>
-                                    <input placeholder="wewewew" disabled="disabled"/>
+                                    <input placeholder={this.showPerson()} disabled="disabled"/>
 
                                 </Button>   
                             </Dropdown>
