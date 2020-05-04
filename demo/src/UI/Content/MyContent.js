@@ -25,6 +25,11 @@ moment.locale('en');
 const { Option } = Select;
 const {RangePicker} = DatePicker
 class MyContent extends Component {
+    
+    constructor(props){
+        super(props)
+        this.toggleMenu=this.toggleMenu.bind(this);
+    }
     state={
         value:["新增日期"],
         dropdownMenuDataSelect:false,
@@ -35,7 +40,8 @@ class MyContent extends Component {
             {name:"成人",yearOlds:"年齡13+",nums:0},
             {name:"兒童",yearOlds:"2 - 12歲",nums:0},
             {name:"幼兒",yearOlds:"2歲以下",nums:0}
-        ]
+        ],
+        active:[false,false,false]
 
     }
     handleShowDropSelectData=()=>{
@@ -73,7 +79,7 @@ class MyContent extends Component {
     }
     showPerson=()=>{
         let newList =this.state.personData;
-        let temp="";
+        let temp="新增旅人";
         for(var i=0;i<newList.length;i++){
             if(newList[i].nums>0){
                 console.log(newList[i])
@@ -86,10 +92,16 @@ class MyContent extends Component {
     showButton=()=>{
         
     }
+    toggleMenu=(num)=>{
+        let newActive=this.state.active;
+        newActive[num] = !newActive[num]
+        console.log(newActive);
+    }
+    
     render() { 
         
         const menu = (
-            <div style={{backgroundColor:"white",border:"1px solid red" }}>
+            <div style={{backgroundColor:"white",border:"1px solid red",padding:"0 25px"}}>
                 <List
                     selectable="false"
                     dataSource={this.state.personData}
@@ -111,7 +123,7 @@ class MyContent extends Component {
           );
           const menu2 = (
              
-            <div style={{backgroundColor: "white",width: 300, border: '1px solid #d9d9d9', borderRadius: 4 }}>
+            <div style={{backgroundColor: "white", border: '1px solid #d9d9d9', borderRadius: 4 }}>
                 <Calendar 
                     fullscreen={false} 
                     onSelect={(data)=>{
@@ -146,34 +158,52 @@ class MyContent extends Component {
                     </Menu>
                     <div className="content_menu_input" style={{display:"flex"}}>
                         
-                        <div className="menu_inputDiv" >
-                            <label htmlFor="input01">
-                                <div style={{padding:"10px"}}>
-                                    <h5>位置</h5>
-                                    <Input id="input01" placeholder="新增城市、地標或地址" />
-                            
-                                </div>
-                            </label>
+                        <div className={this.state.active[0]?"menu_inputDiv active":"menu_inputDiv"} 
+                                    onClick={(e)=>{e.preventDefault();
+                                        let newActive = this.state.active;
+                                        let newOne = !this.state.active[0];
+                                        newActive[0] = newOne;
+                                        this.setState({active:newActive});
+                                    }}
+                        >
+                                <label htmlFor="input01">
+                                    <div  style={{padding:"10px"}}>
+                                        <h5>位置</h5>
+                                        <Input id="input01" placeholder="新增城市、地標或地址" />
+                                    </div>
+                                    
+                                </label>  
+                                
                         </div>
-                 
+                       
                         
-                        <div className="menu_inputDiv">
+                        <div className={this.state.active[1]?"menu_inputDiv active":"menu_inputDiv"} 
+                                    onClick={()=>this.toggleMenu(1)} 
+                                >
+                        
                             <Dropdown overlay={menu2} trigger={['click']}
                                 visible={this.state.dropdownMenuDataSelect}
                             >
+                                
                                 <Button 
                                     onClick={e => {e.preventDefault();this.handleShowDropSelectData();}}
                                     style={{width:"100%",height:"100%",margin:"0"}}
                                 >
-                                    <h5>入住／退房</h5>
-                                    <input disabled="disabled" 
-                                        placeholder={this.state.selectVal1?this.state.selectVal1+"-"+this.state.selectVal2:"新增日期"}
-                                    />
-
+                                    
+                                        <h5>入住／退房</h5>
+                                        <input disabled="disabled" 
+                                            placeholder={this.state.selectVal1?this.state.selectVal1+"-"+this.state.selectVal2:"新增日期"}
+                                        />
+                                   
                                 </Button>   
+                              
                             </Dropdown>
+                            
                         </div>
-                        <div className="menu_inputDiv" style={{borderRight:"unset"}}>
+                        <div className={this.state.active[2]?"menu_inputDiv active":"menu_inputDiv"} 
+                            onClick={()=>this.toggleMenu(2)} 
+                        >
+                        
                             <Dropdown overlay={menu} trigger={['click']}
                                     visible={this.state.dropdownMenuPersonSelect}
                                     
